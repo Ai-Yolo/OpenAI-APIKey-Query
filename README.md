@@ -1,5 +1,5 @@
 # OpenAI-API-Key 余额查询网站
-
+因为不放心网上的 Key API 查询网站，所以想自己建一个简单的，通过开源项目找到了查询接口，然后让 GPT-4 写的 OpenAI-Key 余额查询的代码（ 100%AI 完成）
 ## 部署教程
 直接在 Cloudflare Workers 网页版中新建项目，并复制本仓库中的 apikey.js 到在线编辑器中部署。
 
