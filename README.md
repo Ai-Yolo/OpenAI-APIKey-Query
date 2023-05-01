@@ -2,8 +2,9 @@
 因为不放心网上的 Key API 查询网站，所以想自己建一个简单的，通过开源项目找到了查询接口，然后让 GPT-4 写的 OpenAI-Key 余额查询的代码（ 100%AI 完成）
 ## 部署教程
 直接在 Cloudflare Workers 网页版中新建项目，并复制本仓库中的 apikey.js 到在线编辑器中部署。
+预览网页：https://apikey.aiayw.workers.dev
 
-## 代码功能描述
+## 代码描述
 
 这段代码实现了一个Web应用程序，通过OpenAI API查询密钥信息。它由两个部分组成：前端HTML和后端JavaScript代码。
 
@@ -16,3 +17,6 @@
 在前端HTML部分中，提交表单时会触发JavaScript事件处理程序，该处理程序会防止表单提交，并向`/api`发出查询请求，然后使用响应中的信息更新表格。
 
 此外，这段代码使用了Bootstrap库，该库提供了许多CSS和JavaScript组件，用于实现响应式设计和交互效果。
+
+## 网页预览
+![网页捕获_](https://v2.cm/2023/05/02/644fec61e0eb7.jpeg)
