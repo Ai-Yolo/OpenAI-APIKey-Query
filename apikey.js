@@ -19,8 +19,8 @@ const html = `<!DOCTYPE html>
           <h1 class="text-center mt-5">查询API密钥信息</h1>
           <form class="mt-4">
             <div class="form-group mb-3">
-              <label for="api-key">API密钥:</label>
-              <input type="text" id="api-key" name="api-key" class="form-control" required autocomplete="off">
+              <label for="api-key">API密钥</label>
+              <input type="text" id="api-key" name="api-key" class="form-control" required autocomplete="off" placeholder="请输入sk-开头的OpenAi-API密钥">
             </div>
             <div class="d-grid">
               <input type="submit" value="查询" class="btn btn-primary">
@@ -55,6 +55,10 @@ const html = `<!DOCTYPE html>
                 <th>额度上限</th>
                 <td id="system_hard_limit_usd"></td>
               </tr>
+              <tr>
+                <th>赠送余额到期时间</th>
+                <td id="access_until"></td>
+              </tr>
             </tbody>
           </table>
           <script>
@@ -83,6 +87,10 @@ const html = `<!DOCTYPE html>
                 document.querySelector('#used').innerText = data.used
                 document.querySelector('#subscription').innerText = data.subscription
                 document.querySelector('#remaining').innerText = data.remaining;
+                const accessUntilDate = new Date(data.access_until * 1000);
+                accessUntilDate.setHours(accessUntilDate.getHours() + 8);
+                const accessUntilDateString = accessUntilDate.toISOString().slice(0, 19).replace('T', ' ');
+                document.querySelector('#access_until').innerText = accessUntilDateString;
                 resultTable.classList.remove('d-none')
               }
             })
@@ -146,7 +154,6 @@ async function handleRequest(request) {
       
     }
   }
-
   return new Response(html, {
     headers: {
       'content-type': 'text/html;charset=UTF-8',
