@@ -9,7 +9,7 @@
 ## 网页预览
 预览网页：https://apikey.aiayw.workers.dev
 
-![image](https://user-images.githubusercontent.com/11790369/235579741-8313ba17-767d-40f3-9bfa-ac3a5dfaf7ee.png)
+![image](https://user-images.githubusercontent.com/11790369/235579846-04fd25d1-fd0d-40e4-9520-939cb3fb79bb.png)
 
 ## 代码描述
 
