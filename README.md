@@ -5,7 +5,11 @@
 ## 部署教程
 直接在  [Cloudflare Workers](https://workers.cloudflare.com) 网页版中新建项目，并复制本仓库中的  [apikey.js](https://github.com/Aiayw/OpenAI-API-Key/blob/main/apikey.js)
 到在线编辑器中保存即部署完成。  
+
+## 网页预览
 预览网页：https://apikey.aiayw.workers.dev
+
+![image](https://user-images.githubusercontent.com/11790369/235579741-8313ba17-767d-40f3-9bfa-ac3a5dfaf7ee.png)
 
 ## 代码描述
 
@@ -21,5 +25,3 @@
 
 此外，这段代码使用了Bootstrap库，该库提供了许多CSS和JavaScript组件，用于实现响应式设计和交互效果。
 
-## 网页预览
-![网页捕获_](https://v2.cm/2023/05/02/644fec61e0eb7.jpeg)
