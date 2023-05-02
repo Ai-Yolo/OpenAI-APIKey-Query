@@ -3,7 +3,7 @@
 基于Cloudflare Workers自部署查询OpenAI-API-Key密钥详情
 
 ## 部署教程
-直接在 Cloudflare Workers 网页版中新建项目，并复制本仓库中的  [apikey.js](https://github.com/Aiayw/OpenAI-API-Key/blob/main/apikey.js)
+直接在  [Cloudflare Workers](https://workers.cloudflare.com) 网页版中新建项目，并复制本仓库中的  [apikey.js](https://github.com/Aiayw/OpenAI-API-Key/blob/main/apikey.js)
 到在线编辑器中保存即部署完成。  
 预览网页：https://apikey.aiayw.workers.dev
 
