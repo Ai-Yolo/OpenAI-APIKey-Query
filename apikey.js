@@ -40,23 +40,19 @@ const html = `<!DOCTYPE html>
                 <td id="payment_method_status"></td>
               </tr>
               <tr>
-                <th>已消费额度</th>
+                <th>近两个月已消费</th>
                 <td id="used"></td>
               </tr>
               <tr>
-              <th>剩余额度</th>
-              <td id="remaining"></td>
-              </tr>
-              <tr>
-                <th>账户额度</th>
+                <th>每月消费硬限制</th>
                 <td id="subscription"></td>
               </tr>
               <tr>
-                <th>额度上限</th>
+                <th>账户授信总额度</th>
                 <td id="system_hard_limit_usd"></td>
               </tr>
               <tr>
-                <th>赠送余额到期时间</th>
+                <th>赠送额度有效期</th>
                 <td id="access_until"></td>
               </tr>
             </tbody>
@@ -86,7 +82,6 @@ const html = `<!DOCTYPE html>
                 document.querySelector('#system_hard_limit_usd').innerText = data.system_hard_limit_usd
                 document.querySelector('#used').innerText = data.used
                 document.querySelector('#subscription').innerText = data.subscription
-                document.querySelector('#remaining').innerText = data.remaining;
                 const accessUntilDate = new Date(data.access_until * 1000);
                 accessUntilDate.setHours(accessUntilDate.getHours() + 8);
                 const accessUntilDateString = accessUntilDate.toISOString().slice(0, 19).replace('T', ' ');
@@ -143,8 +138,6 @@ async function handleRequest(request) {
       const subscription = data.hard_limit_usd ? Math.round(data.hard_limit_usd * 100) / 100 : 0
       data.used = used
       data.subscription = subscription
-      const remaining = subscription - used;
-      data.remaining = remaining;
 
       return new Response(JSON.stringify(data, null, 2), { status: 200 })
     } catch (err) {
