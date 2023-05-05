@@ -133,7 +133,7 @@ async function handleRequest(request) {
       .getDate()
       .toString()
       .padStart(2, '0')}`;
-      const startDate = formatDate(new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1));
+      const startDate = formatDate(new Date(new Date().getFullYear(), new Date().getMonth() - 3, 1));
       const endDate = formatDate(new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1));
 
       const usageResponse = await fetch(`https://api.openai.com/dashboard/billing/usage?start_date=${startDate}&end_date=${endDate}`, { headers })
