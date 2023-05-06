@@ -2,6 +2,8 @@
 因为不放心网上的 Key API 查询网站，所以想自己建一个简单的，通过开源项目找到了查询接口，然后让 GPT-4 写的 OpenAI-Key 余额查询的代码（ 100%AI 完成） 
 基于Cloudflare Workers自部署查询OpenAI-API-Key密钥详情
 
+因API限制，只能查询最近月份的消费情况。
+
 ## 部署教程
 直接在  [Cloudflare Workers](https://workers.cloudflare.com) 网页版中新建项目，并复制本仓库中的  [apikey.js](https://github.com/Aiayw/OpenAI-API-Key/blob/main/apikey.js)
 到在线编辑器中保存即部署完成。  
