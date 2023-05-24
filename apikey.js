@@ -17,7 +17,7 @@ const html = `<!DOCTYPE html>
       <div class="row justify-content-center">
         <div class="col-md-6">
           <h1 class="text-center mt-5">查询API密钥信息</h1>
-          <form class="mt-4">
+          <form class="mt-4" method="post">
             <div class="form-group mb-3">
               <label for="api-key">API密钥</label>
               <input type="text" id="api-key" name="api-key" class="form-control" required autocomplete="off" placeholder="请输入sk-开头的OpenAi-API密钥">
@@ -66,7 +66,13 @@ const html = `<!DOCTYPE html>
               event.preventDefault()
             
               const apiKey = apiKeyInput.value
-              const response = await fetch('/api?key=' + apiKey)
+              const response = await fetch('/api', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ key: apiKey })
+              })
               const data = await response.json()
               
               if (data.error) {
@@ -104,9 +110,9 @@ addEventListener('fetch', event => {
 })
 
 async function handleRequest(request) {
-  const url = new URL(request.url)
-  if (url.pathname === '/api') {
-    const apiKey = url.searchParams.get('key')
+  if (request.method === 'POST' && request.url.includes('/api')) {
+    let body = await request.json()
+    const apiKey = body.key
     if (!apiKey) {
       return new Response('缺少API密钥', { status: 400 })
     }
@@ -144,7 +150,7 @@ async function handleRequest(request) {
       if (data.error) {
         return new Response(JSON.stringify({ error: '出错了' }), { status: 500 })
       }
-      
+
     }
   }
   return new Response(html, {
