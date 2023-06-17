@@ -137,34 +137,35 @@ const html = `<!DOCTYPE html>
 
 `
 
-addEventListener('fetch'， event => {
+addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
 async function handleRequest(request) {
-  if (request.method === 'POST' && request.url。includes('/api')) {
+  if (request.method === 'POST' && request.url.includes('/api')) {
     let body = await request.json()
     const apiKey = body.key
     const startDate = body.start_date
     const endDate = body.end_date
     if (!apiKey) {
-      return new Response('缺少API密钥'， { status: 400 })
+      return new Response('缺少API密钥', { status: 400 })
     }
 
     const queryUrl = 'https://api.openai.com/dashboard/billing/subscription'
     const headers = {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.64'，
-      'Authorization': `Bearer ${apiKey}`，
-      'Accept': '*/*'，
-      'Host': 'api.openai.com'，
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.64',
+      'Authorization': `Bearer ${apiKey}`,
+      'Accept': '*/*',
+      'Host': 'api.openai.com',
       'Connection': 'keep-alive'
     }
-
+    
+    let data;
     try {
       const response = await fetch(queryUrl, { headers })
       const data = await response.json()
 
-      const usageResponse = await fetch(`https://api.openai.com/dashboard/billing/usage?start_date=${startDate}&end_date=${endDate}`， { headers })
+      const usageResponse = await fetch(`https://api.openai.com/dashboard/billing/usage?start_date=${startDate}&end_date=${endDate}`, { headers })
       const usageData = await usageResponse.json()
 
       const used = usageData.total_usage ? Math.round(usageData.total_usage) / 100 : 0
@@ -173,27 +174,24 @@ async function handleRequest(request) {
       data.subscription = subscription
 
       // 转换 UNIX 时间戳为北京时间
-      const zhengsonTime = new Date(data.access_until * 1000)。toLocaleString("zh-CN"， { timeZone: "Asia/Shanghai" });
-      const chaxunTime = new Date()。toLocaleString("zh-CN"， { timeZone: "Asia/Shanghai" });
+      const zhengsonTime = new Date(data.access_until * 1000).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+      const chaxunTime = new Date().toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
       let usefulData = {
         硬限制: subscription,
-        总额度: data.system_hard_limit_usd，
+        总额度: data.system_hard_limit_usd,
         赠送期限: zhengsonTime,
-        是否绑卡: data.has_payment_method，
+        是否绑卡: data.has_payment_method,
         查询时间: chaxunTime
       };
       
-      return new Response(JSON.stringify(data, null， 2)， { status: 200 })
+      return new Response(JSON.stringify(data, null, 2), { status: 200 })
     } catch (err) {
-      if (data.error) {
-        return new Response(JSON.stringify({ error: '出错了' })， { status: 500 })
-      }
-
+      return new Response(JSON.stringify({ error: '出错了' }), { status: 500 })
     }
   }
   return new Response(html, {
     headers: {
-      'content-type': 'text/html;charset=UTF-8'，
-    }，
+      'content-type': 'text/html;charset=UTF-8',
+    },
   })
 }
