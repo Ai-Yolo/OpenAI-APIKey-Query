@@ -7,7 +7,6 @@ const html = `<!DOCTYPE html>
     <link rel="icon" href="https://v2.cm/2023/06/26/6499a5821bb10.png" type="image/png">
     <meta name="description" content="OpenAI API,API密钥查询,查询OpenAI API密钥信息,API密钥信息查询,OpenAI账户信息查询,OpenAI API账户查询,OpenAI账户信息,查询OpenAI API账户信息,OpenAI API账户信息查询,查询OpenAI API账户信息和使用情况，查询OpenAI API密钥信息的网站。">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script async src="https://umam.zeabur.app/log" data-website-id="b0bad0cd-a3c5-4fe6-8461-ff59f9bcd253"></script>
     </head>
   <style>
     .footer {
