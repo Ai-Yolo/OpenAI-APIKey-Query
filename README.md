@@ -11,7 +11,8 @@
 ## 网页预览
 预览网页：https://apikey.aiayw.workers.dev
 
-![image](https://user-images.githubusercontent.com/11790369/235579846-04fd25d1-fd0d-40e4-9520-939cb3fb79bb.png)
+![image](https://github.com/Aiayw/OpenAI-APIKey-Query/assets/11790369/bb06390f-adf9-4937-b04a-4561bafa87cc)
+
 
 ## 代码描述
 
