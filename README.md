@@ -5,7 +5,7 @@
 因API限制，只能查询最近月份的消费情况。
 
 ## 部署教程
-直接在  [Cloudflare Workers](https://workers.cloudflare.com) 网页版中新建项目，并复制本仓库中的  [apikey.js](https://github.com/Aiayw/OpenAI-API-Key/blob/main/apikey.js)
+直接在  [Cloudflare Workers](https://workers.cloudflare.com) 网页版中新建项目，并复制本仓库中的  [worker.js](https://github.com/Aiayw/OpenAI-API-Key/blob/main/worker.js)
 到在线编辑器中保存即部署完成。  
 
 ## 网页预览
