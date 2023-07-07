@@ -4,7 +4,10 @@ const html = `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>查询OpenAI-API密钥信息</title>
+    <link rel="icon" href="https://v2.cm/2023/06/26/6499a5821bb10.png" type="image/png">
+    <meta name="description" content="OpenAI API,API密钥查询,查询OpenAI API密钥信息,API密钥信息查询,OpenAI账户信息查询,OpenAI API账户查询,OpenAI账户信息,查询OpenAI API账户信息,OpenAI API账户信息查询,查询OpenAI API账户信息和使用情况，查询OpenAI API密钥信息的网站。">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script async src="https://umam.zeabur.app/log" data-website-id="b0bad0cd-a3c5-4fe6-8461-ff59f9bcd253"></script>
     </head>
   <style>
     .footer {
@@ -72,11 +75,21 @@ const html = `<!DOCTYPE html>
                 <th>赠送额度有效期</th>
                 <td id="access_until"></td>
               </tr>
+              <tr>
+  <th>是否具有GPT-4权限</th>
+  <td id="gpt_4_permission"></td>
+</tr>
+
             </tbody>
           </table>
         </div>
       </div>
     </div>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">🥳每日请求数量有限，推荐<a href="https://github.com/Aiayw/OpenAI-API-Key/">自行部署</a></span>
+        </div>
+    </footer>
     <script>
     document.addEventListener('DOMContentLoaded', (event) => {
       // 获取当前日期
@@ -123,6 +136,8 @@ const html = `<!DOCTYPE html>
         document.querySelector('#system_hard_limit_usd').innerText = data.system_hard_limit_usd
         document.querySelector('#used').innerText = data.used
         document.querySelector('#subscription').innerText = data.subscription
+        document.querySelector('#gpt_4_permission').innerText = data.hasGPT4Permission ? '有权限' : '无权限';
+        resultTable.classList.remove('d-none')
         const accessUntilDate = new Date(data.access_until * 1000);
         accessUntilDate.setHours(accessUntilDate.getHours() + 8);
         const accessUntilDateString = accessUntilDate.toISOString().slice(0, 19).replace('T', ' ');
@@ -135,63 +150,63 @@ const html = `<!DOCTYPE html>
   </body>
 </html>
 
-`
+`;
 
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
+const QUERY_URL = "https://api.openai.com/dashboard/billing/subscription";
+const HEADERS = {
+  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.64",
+  Authorization: "",
+  Accept: "*/*",
+  Host: "api.openai.com",
+  Connection: "keep-alive",
+};
+
+addEventListener("fetch", (event) => {
+  event.respondWith(handleRequest(event.request));
+});
+
+async function fetchAPI(url) {
+  const response = await fetch(url, { headers: HEADERS });
+  return await response.json();
+}
 
 async function handleRequest(request) {
-  if (request.method === 'POST' && request.url.includes('/api')) {
-    let body = await request.json()
-    const apiKey = body.key
-    const startDate = body.start_date
-    const endDate = body.end_date
-    if (!apiKey) {
-      return new Response('缺少API密钥', { status: 400 })
-    }
-
-    const queryUrl = 'https://api.openai.com/dashboard/billing/subscription'
-    const headers = {
-      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.64',
-      'Authorization': `Bearer ${apiKey}`,
-      'Accept': '*/*',
-      'Host': 'api.openai.com',
-      'Connection': 'keep-alive'
-    }
+  if (request.method === "POST" && request.url.includes("/api")) {
+    let body = await request.json();
+    const apiKey = body.key;
+    const startDate = body.start_date;
+    const endDate = body.end_date;
     
-    let data;
-    try {
-      const response = await fetch(queryUrl, { headers })
-      const data = await response.json()
-
-      const usageResponse = await fetch(`https://api.openai.com/dashboard/billing/usage?start_date=${startDate}&end_date=${endDate}`, { headers })
-      const usageData = await usageResponse.json()
-
-      const used = usageData.total_usage ? Math.round(usageData.total_usage) / 100 : 0
-      const subscription = data.hard_limit_usd ? Math.round(data.hard_limit_usd * 100) / 100 : 0
-      data.used = used
-      data.subscription = subscription
-
-      // 转换 UNIX 时间戳为北京时间
-      const zhengsonTime = new Date(data.access_until * 1000).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
-      const chaxunTime = new Date().toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
-      let usefulData = {
-        硬限制: subscription,
-        总额度: data.system_hard_limit_usd,
-        赠送期限: zhengsonTime,
-        是否绑卡: data.has_payment_method,
-        查询时间: chaxunTime
-      };
-      
-      return new Response(JSON.stringify(data, null, 2), { status: 200 })
-    } catch (err) {
-      return new Response(JSON.stringify({ error: '出错了' }), { status: 500 })
+    if (!apiKey) {
+      return new Response("缺少API密钥", { status: 400 });
     }
+
+    HEADERS.Authorization = `Bearer ${apiKey}`;
+
+    try {
+      const data = await fetchAPI(QUERY_URL);
+      const usageData = await fetchAPI(
+        `https://api.openai.com/dashboard/billing/usage?start_date=${startDate}&end_date=${endDate}`
+      );
+      const modelPermissionData = await fetchAPI(`https://api.openai.com/v1/models/gpt-4`);
+
+      const used = usageData.total_usage
+        ? Math.round(usageData.total_usage) / 100
+        : 0;
+      const subscription = data.hard_limit_usd
+        ? Math.round(data.hard_limit_usd * 100) / 100
+        : 0;
+      
+      data.used = used;
+      data.subscription = subscription;
+      data.hasGPT4Permission = modelPermissionData.id === "gpt-4";
+      
+      return new Response(JSON.stringify(data))
+    } catch (error) {
+      return new Response('API调用失败', { status: 500 })
+    }
+  } else {
+    return new Response(html, { headers: { 'content-type': 'text/html' } })
   }
-  return new Response(html, {
-    headers: {
-      'content-type': 'text/html;charset=UTF-8',
-    },
-  })
 }
+
