@@ -59,7 +59,7 @@ const html = `<!DOCTYPE html>
                 <td id="payment_method_status"></td>
               </tr>
               <tr>
-                <th>近两个月已消费</th>
+                <th>查询时间内已消费</th>
                 <td id="used"></td>
               </tr>
               <tr>
