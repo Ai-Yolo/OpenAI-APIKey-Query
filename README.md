@@ -14,8 +14,6 @@
 到在线编辑器中保存即部署完成。  
 
 ## 网页预览
-预览网页：https://apikey.aiayw.workers.dev
-
 ![image](https://github.com/Aiayw/OpenAI-APIKey-Query/assets/11790369/bb06390f-adf9-4937-b04a-4561bafa87cc)
 
 
